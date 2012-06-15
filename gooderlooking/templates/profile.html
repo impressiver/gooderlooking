@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block body %}
+    {% if current_user.is_authenticated() %}
+        <b>Current User: </b>{{ current_user.nickname }} <a href="{{ url_for('openid.logout') }}">Logout</a><br />
+    {% endif %}
+    
+    <b>Twitter: </b>{% if current_user.service('twitter') %}OK (<a href="/oauth/unlink/twitter">unlink</a>){% else %}<a href="/oauth/twitter/signin">SignIn</a>{% endif %}<br />
+    <b>Facebook: </b>{% if current_user.service('facebook') %}OK (<a href="/oauth/unlink/facebook">unlink</a>){% else %}<a href="/oauth/facebook/signin">SignIn</a>{% endif %}<br />
+    <b>Google: </b>{% if current_user.service('google') %}OK (<a href="/oauth/unlink/google">unlink</a>){% else %}<a href="/oauth/google/signin">SignIn</a>{% endif %}<br />
+{% endblock %}

@@ -1,0 +1,115 @@
+Velocity notes:
+
+
+Python
+    - installing
+        - latest: 2.6 - 2.7
+        - brew
+        - pip (python-specific package manager)
+            - pip freeze
+    - full page timing
+    - after deploying nginx
+        - serving static content
+        - proxy back to apache for dynamic stuff
+        - dropped page load by 1/2
+
+
+-- Environment --
+
+Install (OS X)
+    - Nginx
+        $ brew install nginx
+        # Or, for more goodies:
+            $ brew tap fuzzygroove/homebrew-openresty
+            $ brew install OpenResty
+            # $ ./configure --with-http_ssl_module --with-http_gzip_static_module --add-module=/path/to/echo-nginx-module
+        
+    - uWSGI
+        # http://projects.unbit.it/uwsgi/
+        $ brew install uwsgi
+        - Emperor mode
+            # http://tghw.com/blog/multiple-django-and-flask-sites-with-nginx-and-uwsgi-emperor
+            ? Should it go in LaunchDaemons instead
+            $ cd ~/Library/LaunchAgents
+            $ wget http://projects.unbit.it/uwsgi/export/76531b0d0929480676cae35ab371f9f41a9b9fff/it.unbit.uwsgi.emperor.plist
+            * Edit the paths
+            
+            
+    - Python
+        $ brew install python
+            ? Warning: m4 macros were installed to "share/aclocal".
+              Homebrew does not append "/usr/local/share/aclocal"
+              to "/usr/share/aclocal/dirlist". If an autoconf script you use
+              requires these m4 macros, you'll need to add this path manually.
+        
+        # https://github.com/mxcl/homebrew/wiki/Homebrew-and-Python
+        $ vim ~/.profile
+            > export PATH=/usr/local/share/python:$PATH
+        $ /usr/local/share/python/easy_install pip
+
+    - Virtualenv
+        $ pip install virtualenv
+            ? Might not actually need it, but looks useful (http://flask.pocoo.org/docs/installation/#virtualenv)
+            
+        - Create a virtual env
+            ! Protip: You can't use virtualenv in paths that have spaces (http://stackoverflow.com/questions/10873440/trouble-with-pip-and-virtualenv)
+            ! Protip: To update all packages installed in the virtual environment:
+                $ pip freeze --local | cut -d = -f 1  | xargs pip install -U
+        $ cd /path/to/webapp
+        $ virtualenv venv
+        $ . venv/bin/activate
+        
+        # To install Flask 0.8 do:
+        $ virtualenv venv --distribute
+        $ . venv/bin/activate
+        $ pip install Flask==dev
+        
+    - Flask
+        # Installs in the virtual environment we just set up
+        $ pip install Flask
+        
+    - uWSGI daemon
+        ! BROKEN!!!
+        $ pip install uwsgi
+        
+    - flask-empty
+        # https://github.com/italomaia/flask-empty
+        $ cd /path/to/git/repos
+        $ git clone https://github.com/italomaia/flask-empty.git
+        $ cp -r flask-empty/src/0.8/* /path/to/webapp/
+        $ cd /path/to/webapp
+        # "Unfreeze" the requirements for the skeleton app
+        $ pip install -r requirements.txt
+
+    - SQL Alchemy
+        $ pip install SQLAlchemy
+        
+    - Flask-SQLAlchemy
+        # A SQLAlchemy wrapper extension for Flask
+        # http://packages.python.org/Flask-SQLAlchemy/index.html
+        $ pip install Flask-SQLAlchemy
+        
+    - MySQLdb
+        # http://sourceforge.net/projects/mysql-python/
+        $ pip install mysql-python
+        
+    - Flask-Social (not used)
+        # http://packages.python.org/Flask-Social/
+        $ pip install Flask-Social
+        
+        # Install providers
+        $ pip install http://github.com/pythonforfacebook/facebook-sdk/tarball/master
+        $ pip install python-twitter
+        
+    - Flask-OpenID
+        $ pip install Flask-OpenID
+        
+    - Flask-OAuth
+        ! Need to pull this version to work with Google: https://github.com/mete0r/flask-oauth/blob/master/flaskext/oauth.py
+        $ pip install Flask-OAuth
+        
+    - Flask-Security
+        $ pip install Flask-Security
+        # Get the development branch:
+            $ pip install git+https://github.com/mattupstate/flask-security.git
+        
