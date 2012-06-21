@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h1>Upload Photos</h1>
+    
+    {% block content %}
+    
+        <form action="{{ url_for('timeline.upload') }}" method=POST enctype=multipart/form-data>
+            <dl>
+                <dt>{{ form.album.label }}
+                    <dd>{{ form.album }}
+                    
+                <dt>{{ form.title.label }}
+                    <dd>{{ form.title() }}
+                <dt>{{ form.caption.label }}
+                    <dd>{{ form.caption() }}
+                <dt>{{ form.photo.label }}
+                    <dd>{{ form.photo() }}
+            </dl>
+            <p><input type=submit value=Post>
+        </form>
+    {% endblock %}
+{% endblock %}

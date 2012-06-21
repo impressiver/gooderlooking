@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h1><a href="/">Timeline for {{ username }}</a></h1>
+    
+    {% block content %}
+    <ol>
+    {% for photo in photos %}
+        <li>
+            <a href="{{ url_for('timeline.photo', photo_id=photo.id) }}">{{ photo.title }}</a>
+            <img src={{ photo.get_url() }}>
+        </li>
+    {% endfor %}
+    </ol>
+    {% endblock %}
+{% endblock %}
