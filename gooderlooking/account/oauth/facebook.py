@@ -4,6 +4,7 @@ from flask.ext.security import current_user
 from datetime import datetime, timedelta
 from database import db
 from account.oauth import oauth, oauth_authorized
+import json
 
 mod = Blueprint('facebook', __name__, url_prefix='/oauth/facebook')
 
@@ -42,4 +43,31 @@ def facebook_authorized(resp):
     current_user.service('facebook').screen_name = me.data['name']
     db.session.commit()
     
+    import_albums(current_user.service('facebook'))
+    
     return redirect(url_for('account.profile'))
+    
+    
+def import_albums(service, page=None):
+    from timeline.models import Album, Photo
+    
+    page = page or '/me/albums'
+    new_albums = facebook.get(page)
+    user_albums = Album.query.filter(Album.user == current_user)
+    
+    current_app.logger.debug(json.dumps(user_albums))
+    current_app.logger.debug(json.dumps(new_albums.data))
+    
+    for album in new_albums.data['data']:
+        current_app.logger.debug(json.dumps(album))
+        
+        if any(check.service_album_id == album['id'] for check in user_albums):
+            continue
+            
+        album = Album(service.user_id, service.provider, album['id'], album['name'], album.get('description', None), album['created_time'])
+        db.session.add(album)
+        
+    db.session.commit()
+    
+    if albums.data.get('paging') and albums.data.get('paging').get('next'):
+        import_albums(service, page=albums.data['paging']['next'])

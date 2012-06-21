@@ -2,6 +2,7 @@ from flask import (Blueprint, current_app, request, g, session, redirect, flash,
 from flask.ext.security import (Security, current_user, login_required)
 from flask.ext.security.signals import user_registered
 from flask.ext.security.exceptions import UserNotFoundError
+from flask.ext.celery import Celery
 from database import db
 import openid
 
@@ -16,11 +17,6 @@ def init_blueprint(state):
     
     openid.register(app)
     oauth.register(app)
-    
-
-@mod.route("/")
-def index_view():
-    return render_template('index.html')
         
                                    
 @mod.route('/create-profile', methods=['GET', 'POST'])
@@ -29,15 +25,16 @@ def create_profile():
         return redirect(url_for('account.profile'))
         
     if request.method == 'POST':
+        username = request.form['username']
         name = request.form['name']
         email = request.form['email']
-        if not name:
-            flash(u'Error: you have to provide a name')
+        if not username:
+            flash(u'Error: you have to provide a username')
         elif '@' not in email:
             flash(u'Error: you have to enter a valid email address')
         else:
-            user = current_app.security.datastore.create_user(nickname=name, email=email, password='openid', openid=session['openid'], active=True)
-            user_registered.send(user, app=current_app._get_current_object())            
+            user = current_app.security.datastore.create_user(username=username, email=email, nickname=name, password='openid', openid=session['openid'], active=True)
+            user_registered.send(user, app=current_app._get_current_object())
             flash(u'Profile successfully created')
             return redirect(openid.views.oid.get_next_url())
             

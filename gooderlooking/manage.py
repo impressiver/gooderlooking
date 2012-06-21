@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
-
+from __future__ import absolute_import
 from flask.ext import script
+from flask.ext.celery import install_commands as install_celery_commands
 
 import commands
 
@@ -15,5 +16,7 @@ if __name__ == "__main__":
     
     manager.add_command("create_db", commands.CreateDB())
     manager.add_command("drop_db", commands.DropDB())
+    
+    install_celery_commands(manager)
     
     manager.run()

@@ -19,6 +19,7 @@ def app_factory(config, app_name=None, blueprints=None):
     configure_blueprints(app, blueprints or config.BLUEPRINTS)
     configure_error_handlers(app)
     configure_database(app)
+    configure_queue(app)
     configure_context_processors(app)
     configure_template_filters(app)
     configure_extensions(app)
@@ -55,7 +56,27 @@ def configure_security(app):
     
     Security(app, SQLAlchemyUserDatastore(db, User, Role))
 
+
+def configure_database(app):
+    "Database configuration should be set here"
+    from database import db
+    
+    db.app = app
+    db.init_app(app)
+    
+
+def configure_queue(app):
+    "Worker queue configuration should be set here"
+    from flask.ext.celery import Celery
+    from queue import q
+    
+    q = Celery(app)
+    
+
 def configure_error_handlers(app):
+    from logger import sentry
+    
+    sentry.init_app(app)
 
     @app.errorhandler(403)
     def forbidden_page(error):
@@ -100,13 +121,6 @@ def configure_error_handlers(app):
         return render_template("server_error.html"), 500
 
 
-def configure_database(app):
-    "Database configuration should be set here"
-    from database import db
-    db.app = app
-    db.init_app(app)
-
-
 def configure_context_processors(app):
     "Modify templates context here"
     pass
@@ -119,7 +133,9 @@ def configure_template_filters(app):
 
 def configure_extensions(app):
     "Configure extensions like mail and login here"
-    pass
+    from uploader import init_app as uploader_init_app
+    
+    uploader_init_app(app)
 
 
 def configure_before_request(app):
@@ -128,4 +144,16 @@ def configure_before_request(app):
 
 def configure_views(app):
     "Add some simple views here like index_view"
-    pass
+    from flask import redirect, url_for
+    from flask.ext.security import current_user, login_required
+    
+    @app.route("/")
+    def index_view():
+        if current_user.is_authenticated():
+            return redirect(url_for('account.profile'))
+            
+        return render_template('index.html')
+
+    @app.route("/login")
+    def login_view():
+        return redirect(url_for('account.openid.login'))

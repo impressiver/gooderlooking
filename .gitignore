@@ -28,3 +28,6 @@ pip-log.txt
 
 #Virtual Environment
 venv
+
+#Uploads
+*/static/uploads/

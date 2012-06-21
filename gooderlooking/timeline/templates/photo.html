@@ -1,4 +1,5 @@
 {% extends "timeline.html" %}
 {% block content %}
     <h3>{{ username }}: {{ photo.title }}</h3>
+    <img src={{ photo.get_url() }}>
 {% endblock %}

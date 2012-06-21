@@ -5,6 +5,16 @@ from flask.ext.script import Command, Option, prompt_bool
 import os
 import config
 
+class Clean(Command):
+    "Removes all *.pyc files from the project"
+    #Bash: find . -name "*.pyc" -exec rm -rf {} \;
+    import os
+    
+    directory = os.listdir('.')
+    for filename in directory:
+        if filename[-3:] == 'pyc':
+            print '- ' + filename
+            os.remove(filename)
 
 class CreateDB(Command):
     "Creates sqlalchemy database"

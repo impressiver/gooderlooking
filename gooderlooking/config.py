@@ -12,8 +12,10 @@ class Config(object):
     
     # LOGGING
     LOGGER_NAME = "%s_log" % project_name
+    SENTRY_DSN = 'https://a5a5e906a1e04d8b80ef0709fb18da50:bbd0a1fb764b47a99d0e83615ceb7057@app.getsentry.com/1134'
+    SENTRY_INCLUDE_PATHS = [project_name]
 
-    # DATABASE CONFIGURATION
+    # DATABASE
     SQLALCHEMY_DATABASE_URI = "mysql://root@localhost/%s_dev" % project_name
     SQLALCHEMY_ECHO = True
     
@@ -33,8 +35,12 @@ class Config(object):
         'aol':          'http://aol.com/',
         'steam':        'https://steamcommunity.com/openid/'
     }
+    
+    # UPLOADS
+    UPLOADS_DEFAULT_DEST = 'static/uploads'
+    UPLOADS_DEFAULT_URL = 'http://media.gooderlooking.com/'
 
-    # EMAIL CONFIGURATION
+    # EMAIL
     MAIL_SERVER = "localhost"
     MAIL_PORT = 25
     MAIL_USE_TLS = False
@@ -50,6 +56,15 @@ class Config(object):
         'account.views.mod',
         ('timeline.views.mod', {'url_prefix': '/timeline'})
     ]
+    
+    # QUEUE
+    CELERY_CONFIG_MODULE = "gooderlooking.config"
+    CELERY_RESULT_BACKEND = "redis"
+    CELERY_REDIS_HOST = "localhost"
+    CELERY_REDIS_PORT = 6379
+    CELERY_REDIS_DB = 0
+
+    BROKER_URL = 'redis://localhost:6379/0'
 
 class Prod(Config):
     DEBUG = False
