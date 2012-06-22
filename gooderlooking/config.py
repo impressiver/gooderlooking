@@ -12,7 +12,7 @@ class Config(object):
     TESTING = False
     USE_X_SENDFILE = False
     
-    STATIC_SUBDOMAIN = 'https://static.gooderlooking.com'
+    STATIC_SUBDOMAIN = 'http://static.gooderlooking.com'
     
     # LOGGING
     LOGGER_NAME = "%s_log" % project_name
@@ -77,13 +77,23 @@ class Config(object):
     ASSETS_SCRIPTS = {
         'boot': [
             'scripts/jquery-1.7.2.js',
+            'lib/jquery-ui-1.8.21/development-bundle/ui/jquery.ui.core.js',
+            'lib/jquery-plugins/jquery.iecors.js',
             'scripts/spin.js',
-            'lib/jquery-ui-1.8.21/development-bundle/ui/jquery.ui.core.js'
+            'scripts/site.js'
+        ],
+        'timelines': [
+            'scripts/timelines.js'
         ]
     }
     ASSETS_STYLES = {
         'boot': [
-            'styles/style.css'
+            'styles/reset.css',
+            'styles/site.css',
+            'styles/theme.responsive.css'
+        ],
+        'timelines': [
+            'styles/timelines.css'
         ]
     }
 
