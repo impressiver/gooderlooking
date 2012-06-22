@@ -117,3 +117,25 @@ Install (OS X)
         
     - Raven (Sentry client)
         $ pip install raven
+        
+    - Flask-Assets
+        $ pip install Flask-Assets
+        
+    - cssmin
+        $ pip install cssmin
+==========
+UI
+----------
+- jQuery (uncompressed)
+    # http://docs.jquery.com/Downloading_jQuery
+    $ cd gooderlooking/static/scripts 
+    $ wget http://code.jquery.com/jquery-1.7.2.js
+    
+- jQuery UI
+    # http://jqueryui.com/download
+    # No theme, all extensions
+    
+- Absolution (jQuery UI theme)
+    $ cd gooderlooking/static/lib
+    $ git clone https://github.com/michaelvanderheeren/Absolution.git
+        

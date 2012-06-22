@@ -1,5 +1,8 @@
 *.py[co]
 
+# OS
+.DS_Store
+
 # Packages
 *.egg
 *.egg-info
@@ -20,14 +23,16 @@ pip-log.txt
 .coverage
 .tox
 
-#Translations
+# Translations
 *.mo
 
-#Mr Developer
+# Mr Developer
 .mr.developer.cfg
 
-#Virtual Environment
+# Virtual Environment
 venv
 
-#Uploads
-*/static/uploads/
+# Generated Content
+*/static/.webassets-cache
+*/static/min
+*/static/uploads

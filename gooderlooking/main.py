@@ -15,16 +15,16 @@ def app_factory(config, app_name=None, blueprints=None):
     app = Flask(app_name)
     
     configure_app(app, config)
+    configure_database(app)
     configure_security(app)
     configure_blueprints(app, blueprints or config.BLUEPRINTS)
     configure_error_handlers(app)
-    configure_database(app)
-    configure_queue(app)
     configure_context_processors(app)
     configure_template_filters(app)
     configure_extensions(app)
     configure_before_request(app)
     configure_views(app)
+    configure_queue(app)
     
     app.logger.debug("Done building %s", app_name)
 
@@ -133,10 +133,22 @@ def configure_template_filters(app):
 
 def configure_extensions(app):
     "Configure extensions like mail and login here"
+    from assets import environment, register_bundles
     from uploader import init_app as uploader_init_app
-    
-    uploader_init_app(app)
 
+    # Initialize the asset manager
+    environment.init_app(app)
+    
+    register_bundles(app.config)
+    
+    # app.logger.debug(app.config['STATIC_SUBDOMAIN'])
+    # if app.config['STATIC_SUBDOMAIN']:
+    #     app.add_url_rule('/<path:filename>', endpoint='static',
+    #                      view_func=app.send_static_file, subdomain=app.config['STATIC_SUBDOMAIN'])
+    
+    # Initialize the file uploader
+    uploader_init_app(app)
+    
 
 def configure_before_request(app):
     pass

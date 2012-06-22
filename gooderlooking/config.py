@@ -1,14 +1,18 @@
 # -*- config:utf-8 -*-
-
 from datetime import timedelta
 
 project_name = "gooderlooking"
 
-
 class Config(object):
+    # APP
+    BUILD = 123
+    
+    # FLASK
     DEBUG = True
     TESTING = False
     USE_X_SENDFILE = False
+    
+    STATIC_SUBDOMAIN = 'https://static.gooderlooking.com'
     
     # LOGGING
     LOGGER_NAME = "%s_log" % project_name
@@ -65,9 +69,27 @@ class Config(object):
     CELERY_REDIS_DB = 0
 
     BROKER_URL = 'redis://localhost:6379/0'
+    
+    # ASSETS
+    ASSETS_DEBUG = False
+    ASSETS_VERSIONS = 'build'
+    ASSETS_URL = '//static.gooderlooking.com'
+    ASSETS_SCRIPTS = {
+        'boot': [
+            'scripts/jquery-1.7.2.js',
+            'scripts/spin.js',
+            'lib/jquery-ui-1.8.21/development-bundle/ui/jquery.ui.core.js'
+        ]
+    }
+    ASSETS_STYLES = {
+        'boot': [
+            'styles/style.css'
+        ]
+    }
 
 class Prod(Config):
     DEBUG = False
+    ASSETS_DEBUG = False
     
     SQLALCHEMY_DATABASE_URI = "mysql://root@localhost/%s" % project_name
     SQLALCHEMY_ECHO = False
@@ -86,7 +108,7 @@ class Testing(Config):
     SQLALCHEMY_ECHO = False
 
 
-class PyCharm(Config):
+class PyCharm(Dev):
     DEBUG = False
     THREADED = True
     SQLALCHEMY_ECHO = True
