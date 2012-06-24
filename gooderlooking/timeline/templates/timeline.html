@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
     <h1><a href="/">Timeline for {{ username }}</a></h1>
+    <a href="{{ url_for('timeline.upload') }}">Upload a photo</a>
     
     {% block content %}
     <ol>

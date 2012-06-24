@@ -29,6 +29,9 @@ def upload():
     #form = model_form(Photo, converter=RelationalModelConverter(db.session))
     #form = model_form(Photo)
     
+    # Multiple files
+    #request.files.getlist('file')
+    
     if request.method == 'POST':
         if not (form.photo.data):
             flash("You must select an image file to upload")

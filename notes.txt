@@ -99,6 +99,9 @@ Install (OS X)
         $ pip install Flask-Security
         # Get the development branch:
             $ pip install git+https://github.com/mattupstate/flask-security.git
+            
+    - Flask-Gravitar
+        $ pip install Flask-Gravatar
         
     - Redis
         $ brew install redis
@@ -123,6 +126,17 @@ Install (OS X)
         
     - cssmin
         $ pip install cssmin
+        
+    - glue
+        $ pip install glue
+        
+        
+Install (Ubuntu)
+    - glue
+        # https://github.com/jorgebastida/glue
+        $ apt-get install libjpeg62 libjpeg62-dev zlib1g-dev
+        $ pip install glue
+        
 ==========
 UI
 ----------

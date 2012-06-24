@@ -133,21 +133,35 @@ def configure_template_filters(app):
 
 def configure_extensions(app):
     "Configure extensions like mail and login here"
+    from functools import wraps
     from assets import environment, register_bundles
     from uploader import init_app as uploader_init_app
-
+    from flask.ext.gravatar import Gravatar
+    
+    
+    # Wrap the static file handler so that we can add image optimization
+    def smushy(*args, **kwds):
+        
+        return app.send_static_file(*args, **kwds)
+    
+    app.add_url_rule('/<path:filename>', endpoint='static',
+                     view_func=smushy, subdomain=app.config.get('STATIC_SUBDOMAIN', "empty"))
+                         
+    
     # Initialize the asset manager
     environment.init_app(app)
-    
     register_bundles(app.config)
-    
-    # app.logger.debug(app.config['STATIC_SUBDOMAIN'])
-    # if app.config['STATIC_SUBDOMAIN']:
-    #     app.add_url_rule('/<path:filename>', endpoint='static',
-    #                      view_func=app.send_static_file, subdomain=app.config['STATIC_SUBDOMAIN'])
     
     # Initialize the file uploader
     uploader_init_app(app)
+    
+    # Initialize Gravatars
+    gravatar = Gravatar(app,
+                        size=100,
+                        rating='pg',
+                        default='retro',
+                        force_default=False,
+                        force_lower=False)
     
 
 def configure_before_request(app):

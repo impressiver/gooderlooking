@@ -12,8 +12,6 @@ class Config(object):
     TESTING = False
     USE_X_SENDFILE = False
     
-    STATIC_SUBDOMAIN = 'http://static.gooderlooking.com'
-    
     # LOGGING
     LOGGER_NAME = "%s_log" % project_name
     SENTRY_DSN = 'https://a5a5e906a1e04d8b80ef0709fb18da50:bbd0a1fb764b47a99d0e83615ceb7057@app.getsentry.com/1134'
@@ -39,10 +37,6 @@ class Config(object):
         'aol':          'http://aol.com/',
         'steam':        'https://steamcommunity.com/openid/'
     }
-    
-    # UPLOADS
-    UPLOADS_DEFAULT_DEST = 'static/uploads'
-    UPLOADS_DEFAULT_URL = 'http://media.gooderlooking.com/'
 
     # EMAIL
     MAIL_SERVER = "localhost"
@@ -70,17 +64,19 @@ class Config(object):
 
     BROKER_URL = 'redis://localhost:6379/0'
     
+    # UPLOADS
+    UPLOADS_DEFAULT_DEST = 'static/uploads'
+    UPLOADS_DEFAULT_URL = '/static/uploads'
+    
     # ASSETS
     ASSETS_DEBUG = False
     ASSETS_VERSIONS = 'build'
-    ASSETS_URL = '//static.gooderlooking.com'
     ASSETS_SCRIPTS = {
         'boot': [
             'scripts/jquery-1.7.2.js',
             'lib/jquery-ui-1.8.21/development-bundle/ui/jquery.ui.core.js',
-            'lib/jquery-plugins/jquery.iecors.js',
             'scripts/spin.js',
-            'scripts/site.js'
+            'scripts/app.js'
         ],
         'timelines': [
             'scripts/timelines.js'
