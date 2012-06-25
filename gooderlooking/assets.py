@@ -8,11 +8,11 @@ environment = Environment()
 
 def register_bundles(config):
     for key, scripts in config['ASSETS_SCRIPTS'].iteritems():
-        bundle = Bundle(*scripts, filters='jsmin, gzip', output='min/scripts/' + key + '.%(version)s.js')
+        bundle = Bundle(*scripts, filters='jsmin, gzip', output=config['ASSETS_DEFAULT_DEST'] + '/scripts/' + key + '.%(version)s.js')
         environment.register(key + '.js', bundle)
     
     for key, styles in config['ASSETS_STYLES'].iteritems():
-        bundle = Bundle(*styles, filters='datauri, cssmin', output='min/styles/' + key + '.%(version)s.css')
+        bundle = Bundle(*styles, filters='datauri, cssmin', output=config['ASSETS_DEFAULT_DEST'] + '/styles/' + key + '.%(version)s.css')
         environment.register(key + '.css', bundle)
         
 class BuildVersion(Version):

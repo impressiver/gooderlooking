@@ -71,6 +71,7 @@ class Config(object):
     # ASSETS
     ASSETS_DEBUG = False
     ASSETS_VERSIONS = 'build'
+    ASSETS_DEFAULT_DEST = 'min'
     ASSETS_SCRIPTS = {
         'boot': [
             'scripts/jquery-1.7.2.js',
@@ -92,6 +93,9 @@ class Config(object):
             'styles/timelines.css'
         ]
     }
+    
+    # OPTIMIZE
+    OPTIMIZE_DEFAULT_DEST = 'min'
 
 class Prod(Config):
     DEBUG = False

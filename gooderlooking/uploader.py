@@ -4,4 +4,4 @@ photos = UploadSet('photos', IMAGES)
 
 def init_app(app):
     configure_uploads(app, photos)
-    patch_request_class(app, 32 * 1024 * 1024)  # 32 megabytes
+    patch_request_class(app, 32 * 1024 * 1024)  # max request at 32 megabytes

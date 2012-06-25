@@ -139,13 +139,13 @@ def configure_extensions(app):
     from flask.ext.gravatar import Gravatar
     
     
-    # Wrap the static file handler so that we can add image optimization
     def smushy(*args, **kwds):
-        
+        app.logger.debug(kwds)
         return app.send_static_file(*args, **kwds)
     
-    app.add_url_rule('/<path:filename>', endpoint='static',
-                     view_func=smushy, subdomain=app.config.get('STATIC_SUBDOMAIN', "empty"))
+    # Wrap the static file handler so that we can add image optimization
+    app.add_url_rule('/upload/<path:filename>', endpoint='static',
+                     view_func=smushy)
                          
     
     # Initialize the asset manager
