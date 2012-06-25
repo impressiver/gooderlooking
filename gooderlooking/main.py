@@ -140,13 +140,18 @@ def configure_extensions(app):
     
     
     def smushy(*args, **kwds):
-        app.logger.debug(kwds)
         return app.send_static_file(*args, **kwds)
     
     # Wrap the static file handler so that we can add image optimization
     app.add_url_rule('/upload/<path:filename>', endpoint='static',
                      view_func=smushy)
-                         
+                             
+    # from flask.ext.optimize import Optimize
+    # 
+    # optimize = Optimize()
+    # optimize.init_app(current_app)
+    # 
+    # optimize.smush('static/uploads/blog-splash_1.png', 'static/uploads/blog-splash_1-optim.png')
     
     # Initialize the asset manager
     environment.init_app(app)

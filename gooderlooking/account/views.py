@@ -44,13 +44,6 @@ def create_profile():
 @mod.route('/profile')
 @login_required
 def profile():
-    from flask.ext.optimize import Optimize
-
-    optimize = Optimize()
-    optimize.init_app(current_app)
-
-    optimize.smush('static/uploads/blog-splash_1.png', 'static/uploads/blog-splash_1-optim.png')
-    
     return render_template('profile.html', content='Profile');
 
 
